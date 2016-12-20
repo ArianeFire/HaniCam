@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html ng-app>
+	<head>
+	   <meta charset="UTF-8">
+	   <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>HaniCam</title>
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		
+		
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"      	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+		</script>
+		
+		<!--Mine Script -->
+		<link href="/opt/lampp/htdocs/www/HancamV2/bootstrap.css" rel="stylesheet">
+		<script src="/opt/lampp/htdocs/www/HancamV2/jquery.js"></script>
+		<script src="/opt/lampp/htdocs/www/HancamV2/bjs.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	</head>
+	
+	<body>
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand">HaniCam</a>
+				</div>
+
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#">Statistic</a></li>
+					<li></li>
+				</ul>
+
+				<div class="col-sm-3 col-md-3 pull-right">
+            		<form class="navbar-form" role="search">
+                		<div class="input-group">
+                    		<input type="text" class="form-control" placeholder="Search Student" name="q" />
+                    		<!--<div class="input-group-btn">
+                        		<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    		</div>-->
+                		</div>
+            		</form>
+        		</div>
+
+			</div>
+		</nav>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-1">
+					<h1>Liste des Etudiants GI4</h1>
+				</div>
+				<div class="col-md-2">
+					<label>Recognition : </label>  <input type="checkbox" id="reg" />
+					<label>Take photo : </label>  <input type="checkbox" id="tp" />
+					<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">ADD NEW STUDENT</button>
+
+					<!-- Modal -->
+					<div id="myModal" class="modal fade" role="dialog">
+  							<div class="modal-dialog">
+
+						    <!-- Modal content-->
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							        <h4 class="modal-title">New Student</h4>
+							      </div>
+							      <div class="modal-body">
+							         <form role="form" method="get" action="/addStudent">
+							         	<div class="form-group">
+    											<label for="ide">Id : </label>
+    											<input type="name" class="form-control" name="ide">
+  											</div>
+  											<div class="form-group">
+    											<label for="email">Nom & Prenom : </label>
+    											<input type="name" class="form-control" name="nom">
+  											</div>
+  											<div class="form-group">
+  												<label for="filiere">Filiere : </label>
+  												<select class="form-control" name="filiere">
+  													<option value="GI5">GI5</option>
+    												<option value="GI4">GI4</option>
+    												<option value="GI3">GI3</option>
+  												</select>
+  											</div>
+  											<button type="submit" class="btn btn-default">ADD</button>
+										</form>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							      </div>
+							    </div>
+		
+						  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-1">
+					<!-- LISTE DES ETUDIANTS AVEC LA PRESENCE-->
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>NAME</th>
+								<th>N/P</th>
+								<th>ADD</th>
+								<th>SUBSTRACT</th>
+							</tr>
+						</thead>
+				
+						<tbody id="f">
+							<% for(var i = 0; i<names.length; i++){ %>
+							  <tr>
+  			                 <td><%= names[i] %></td>
+  			                 <td><%= numbers[i] %></td>
+  			                 <td><a href="/plus?nom=<%= names[i] %>">Plus</a></td>
+  			                 <td><a href="/moins?nom=<%= names[i] %>">Moins</a></td>
+  			              </tr>  
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<table class="table table-striped">
+						<!--<legend>Data</legend>-->
+						<thead>
+							<tr>
+								<th>NAME</th>
+								<th>PRESENCE</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+				
+						<tbody id="d">
+				
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+ 	   <script src="/socket.io/socket.io.js"></script>
+		<script>
+		jQuery(function($)
+		{
+ 	 	   var socket = io();
+  			var $field = $('#d');
+  			var $tab = $('#f');
+  			var $check = $('#reg');
+  			var $tp = $('#tp');
+  			var day = new Date();
+  			var d = day.getMonth()+1;
+  			var ch = day.getDate()+"/"+d+"/"+day.getFullYear();
+			
+ 		   socket.emit('log', "");
+ 		   
+  			
+  			socket.on('data', function(info)
+  			{	
+  			   console.log('Data : '+info.donne);
+  			   var elt = '<tr>'+
+  			                 '<td>'+info.donne+'</td>'+
+  			                 '<td>Present</td>'+
+  			                 '<td>'+ch+'</td>'+
+  			             '</tr>';
+    			$field.append(elt);
+
+			});
+			
+			/*socket.on('update', function(data){
+				et = data.dbdata;
+    			$tab.empty();
+    			var index;
+			   for(index = 0; index<et.length; index++){
+				     var elt = '<tr>'+
+  			                    '<td>'+et[index].nom+'</td>'+
+  			                    '<td>'+et[index].ab+'</td>'+
+  			                    '<td><a href="/update?nom='+et[index].nom+'&plus=1">Plus</a></td>'+
+  			                    '<td><a href="/update?nom='+et[index].nom+'&moins=1">Moins</a></td>'+
+  			                  '</tr>';               
+    			    $tab.append(elt);
+    			}
+    			
+			});*/
+			
+		  
+		  	$check.change(function() {
+   			if($(this).is(":checked")) {
+					socket.emit('checkbox', {checked : "on"});
+					//alert('on');
+  				 }else {
+   			   socket.emit('checkbox', {checked : "off"});  
+   			   //alert('off');
+   			 }
+			});
+			
+			$tp.change(function() {
+   			if($(this).is(":checked")) {
+					socket.emit('checkbox', {checked : "tp"});
+					//alert('on');
+  				 }else {
+   			   socket.emit('checkbox', {checked : "stp"});  
+   			   //alert('off');
+   			 }
+			});
+
+		});
+		
+		</script>
+		<script scr="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+  </body>	
+</html>

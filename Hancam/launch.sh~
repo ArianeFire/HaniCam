@@ -1,0 +1,4 @@
+#! /bin/bash
+
+cd /home/seydou/Hanicam/FACE_KNOWN/
+python recognizer.py

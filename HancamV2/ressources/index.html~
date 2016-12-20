@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	   <meta charset="UTF-8">
+	   <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>HaniCam</title>
+		<!--<link rel="stylesheet" type="text/css" href="bootstrap.css"></link>-->
+		<!--<script scr="bower_components/angular/angular.min.js"></script>
+		<script scr="bower_components/angular/angular.js"></script>
+		<script scr="bower_components/angular/ang.js"></script>-->
+	</head>
+	
+	<body>
+		<h1>HaniCam</h1>
+		
+		<table id="d" border="1px solid black">
+			<!--<legend>Data</legend>-->
+			<th>
+				<td>Nom</td>
+				<td>Presence</td>
+			</th>
+		</table>
+		
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+ 	   <script src="/socket.io/socket.io.js"></script>
+		<script>
+		jQuery(function($)
+		{
+ 	 	   var socket = io();
+  			var $field = $('#d');
+			
+ 		   socket.emit('log', "I am now Connected Server");
+		 
+  			socket.on('data', function(info)
+  			{	
+  			   console.log('Data : '+info.donne);
+  			   var elt = "<tr><td>"+info.donne+"</td><td>OK</td></tr>";
+    			$field.append(elt);
+			});
+
+		});
+		</script>
+  </body>	
+</html>
