@@ -95,7 +95,7 @@ while (1):
         		   writeInFile(nom)
         		   listes.add(nom)
         else :
-        		cv2.putText(img,'Recognition en cours ...', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
+        		cv2.putText(img,'En cours ...', (x,y), cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,250),3,1)
     cv2.imshow('result',img)
     if cv2.waitKey(10) == 27:
         break

@@ -17,7 +17,7 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 mapping = {'s1': 'Seydou', 's2':'oussama', 's3':'mahi'}
 listes = set([])
 def writeInFile(listes):
-    fichier = open('/opt/lampp/htdocs/www/HancamV2/ressources/liste.txt', 'w')
+    fichier = open('../../../HancamV2/ressources/liste.txt', 'w')
     #for line in listes :
     fichier.write(listes)
     fichier.close();

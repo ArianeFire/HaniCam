@@ -67,7 +67,7 @@ def read_images(path, sz=None):
 
 
 # Read in the image data:
-[X,y] = read_images("/home/seydou/RHOR/facerec-master/data")
+[X,y] = read_images("/home/seydou/RHOR/facerec-master/data/gi4")
 
 #### Learning a Model
 model.compute(X,y)
