@@ -16,8 +16,13 @@ mongodb NoSql database. This server will handle student list (insert new student
 It is the Front-End of the NodeJs Server developped in the Embedded System. It allow student to launch & stop facial recognition
 and also teacher can use it to handle list of student absence.
 
-### Run this Project
+### Run this Project (Linux Machine Only).
 
-In order to run this project, you will need to install OpenCV 3.0 and NodeJs.
-Then download the project in the your 
+1- Download the project.
+2- In order to run this project, you will need to install OpenCV 3.0 and NodeJs.
+3- You should also install properly this framework (it's necessary for Facial recognition) [See GitHub Repo](https://github.com/bytefish/facerec)
+4- Finally launch NodeJs Server in the "HanCamV2" folder (with node app.js")
+   The app is accessible from "localhost:8000". For authentification purpose use (email : tbouchentouf@gmail.com & pass : toumi).
+   From that app you will be able to launch Facial Recognition. 
+   (Before, you need to create your images Database using "taker.py" in "HanCamV2" folder).
 
